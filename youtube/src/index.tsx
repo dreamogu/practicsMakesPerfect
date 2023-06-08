@@ -3,13 +3,31 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import NotFound from './pages/NotFound';
+import VideoList from './pages/VideoList';
+import VideoDetail from './pages/VideoDetail';
+
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    errorElement: <NotFound />,
+    children: [
+      { index: true, element: <VideoList /> },
+      { path: 'videos', element: <VideoList /> },
+      { path: 'videos/:keyword', element: <VideoList /> }, // 서치했을 때
+      { path: 'videos/detail/:videoId', element: <VideoDetail /> }, // 디테일페이지
+    ],
+  },
+]);
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <App />
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
